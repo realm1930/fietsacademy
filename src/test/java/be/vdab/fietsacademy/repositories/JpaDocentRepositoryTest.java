@@ -49,6 +49,10 @@ class JpaDocentRepositoryTest extends AbstractTransactionalJUnit4SpringContextTe
         return super.jdbcTemplate.queryForObject(
                 "select id from docenten where voornaam='testV'", Long.class);
     }
+    private long idVanTestDocent() {
+        return super.jdbcTemplate.queryForObject(
+                "select id from docenten where voornaam='test'", Long.class);
+    }
     @Test
     void man() {
         assertThat(repository.findById(idVanTestMan())
@@ -64,7 +68,7 @@ class JpaDocentRepositoryTest extends AbstractTransactionalJUnit4SpringContextTe
     void create() {
         repository.create(docent);
         assertThat(docent.getId()).isPositive();
-        assertThat(super.countRowsInTableWhere(DOCENTEN, "id=" + docent.getId())).isOne();
+        assertThat(super.countRowsInTableWhere(DOCENTEN, "id=" + idVanTestDocent())).isOne();
     }
 
 }
