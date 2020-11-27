@@ -17,4 +17,16 @@ public class Campus {
 
     protected Campus() {
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getNaam() {
+        return naam;
+    }
+
+    public Adres getAdres() {
+        return adres;
+    }
 }
