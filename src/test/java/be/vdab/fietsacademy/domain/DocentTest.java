@@ -1,4 +1,4 @@
-package be.vdab.fietsacademy.repositories;
+package be.vdab.fietsacademy.domain;
 
 
 import be.vdab.fietsacademy.domain.Docent;
