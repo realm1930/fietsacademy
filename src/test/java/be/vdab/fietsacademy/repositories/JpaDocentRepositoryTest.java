@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,11 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(JpaDocentRepository.class)
 class JpaDocentRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
 
+    private final EntityManager manager;
     private final JpaDocentRepository repository;
     private Docent docent;
     private static final String DOCENTEN = "docenten";
 
-    public JpaDocentRepositoryTest(JpaDocentRepository repository) {
+    public JpaDocentRepositoryTest(EntityManager manager, JpaDocentRepository repository) {
+        this.manager = manager;
         this.repository = repository;
     }
 
@@ -69,6 +72,14 @@ class JpaDocentRepositoryTest extends AbstractTransactionalJUnit4SpringContextTe
         repository.create(docent);
         assertThat(docent.getId()).isPositive();
         assertThat(super.countRowsInTableWhere(DOCENTEN, "id=" + idVanTestDocent())).isOne();
+    }
+
+    @Test
+    void delete() {
+        var id = idVanTestMan();
+        repository.delete(id);
+        manager.flush();
+        assertThat(super.countRowsInTableWhere(DOCENTEN, "id=" + id)).isZero();
     }
 
 }
