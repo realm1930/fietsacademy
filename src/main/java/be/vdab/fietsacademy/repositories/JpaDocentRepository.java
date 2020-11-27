@@ -66,6 +66,13 @@ class JpaDocentRepository implements DocentRepository {
                         "d.wedde,count(d)) from Docent d group by d.wedde",
                 AantalDocentenPerWedde.class).getResultList();
     }
+    @Override
+    public int algemeneOpslag(BigDecimal percentage) {
+        var factor = BigDecimal.ONE.add(percentage.divide(BigDecimal.valueOf(100)));
+        return manager.createNamedQuery("Docent.algemeneOpslag")
+                .setParameter("factor", factor)
+                .executeUpdate();
+    }
 
 
 }
