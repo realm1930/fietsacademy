@@ -1,7 +1,5 @@
 package be.vdab.fietsacademy.domain;
 
-import org.springframework.core.annotation.Order;
-
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.LinkedHashSet;

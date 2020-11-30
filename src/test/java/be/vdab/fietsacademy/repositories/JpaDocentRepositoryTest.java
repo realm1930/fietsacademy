@@ -1,9 +1,6 @@
 package be.vdab.fietsacademy.repositories;
 
-import be.vdab.fietsacademy.domain.Adres;
-import be.vdab.fietsacademy.domain.Campus;
-import be.vdab.fietsacademy.domain.Docent;
-import be.vdab.fietsacademy.domain.Geslacht;
+import be.vdab.fietsacademy.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -17,7 +14,7 @@ import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Sql({"/insertCampus.sql", "/insertDocent.sql"})
+@Sql({"/insertCampus.sql", "/insertVerantwoordelijkheid.sql", "/insertDocent.sql", "/insertDocentVerantwoordelijkheid.sql"})
 @Import(JpaDocentRepository.class)
 class JpaDocentRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
 
@@ -144,10 +141,23 @@ class JpaDocentRepositoryTest extends AbstractTransactionalJUnit4SpringContextTe
                 "select wedde from docenten where id=?", BigDecimal.class, idVanTestMan()))
                 .isEqualByComparingTo("1100");
     }
-    /*@Test
-    void campusLazyLoaded() {
-        var docent = repository.findById(idVanTestMan()).get();
-        assertThat(docent.getCampus().getNaam()).isEqualTo("test");
-    }*/
+    @Test
+    void verantwoordelijkhedenLezen() {
+        assertThat(repository.findById(idVanTestMan()).get().getVerantwoordelijkheden())
+                .containsOnly(new Verantwoordelijkheid("test"));
+    }
+    @Test
+    void verantwoordelijkheidToevoegen() {
+        var verantwoordelijkheid = new Verantwoordelijkheid("test2");
+        manager.persist(verantwoordelijkheid);
+        manager.persist(campus);
+        repository.create(docent);
+        docent.add(verantwoordelijkheid);
+        manager.flush();
+        assertThat(super.jdbcTemplate.queryForObject(
+                "select verantwoordelijkheidid from docentenverantwoordelijkheden " +
+                        "where docentid=?", Long.class, docent.getId()).longValue())
+                .isEqualTo(verantwoordelijkheid.getId());
+    }
 
 }
