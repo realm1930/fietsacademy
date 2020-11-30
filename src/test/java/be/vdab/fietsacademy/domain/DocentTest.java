@@ -1,8 +1,6 @@
 package be.vdab.fietsacademy.domain;
 
 
-import be.vdab.fietsacademy.domain.Docent;
-import be.vdab.fietsacademy.domain.Geslacht;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,10 +11,12 @@ import static org.assertj.core.api.Assertions.*;
 public class DocentTest {
     private final static BigDecimal WEDDE = BigDecimal.valueOf(200);
     private Docent docent1;
+    private Campus campus;
 
     @BeforeEach
     void beforeEach() {
-        docent1 = new Docent("test", "test", WEDDE, "test@test.be", Geslacht.MAN);
+        campus = new Campus("test", new Adres("test", "test", "test", "test"));
+        docent1 = new Docent("test", "test", WEDDE, "test@test.be", Geslacht.MAN, campus);
     }
     @Test
     void opslag() {
@@ -76,4 +76,7 @@ public class DocentTest {
         assertThat(docent1.removeBijnaam("test2")).isFalse();
         assertThat(docent1.getBijnamen()).containsOnly("test");
     }
+
+
+
 }

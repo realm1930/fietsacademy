@@ -1,7 +1,5 @@
 package be.vdab.fietsacademy.domain;
 
-import org.springframework.web.bind.annotation.GetMapping;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,19 +24,32 @@ public class Docent {
             joinColumns = @JoinColumn(name = "docentid") )
     @Column(name = "bijnaam")
     private Set<String> bijnamen;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "campusid")
+    private Campus campus;
+
 
     public Docent(String voornaam, String familienaam, BigDecimal wedde,
-                  String emailAdres, Geslacht geslacht) {
+                  String emailAdres, Geslacht geslacht, Campus campus) {
         this.voornaam = voornaam;
         this.familienaam = familienaam;
         this.wedde = wedde;
         this.emailAdres = emailAdres;
         this.geslacht = geslacht;
+        setCampus(campus);
         this.bijnamen = new LinkedHashSet<>();
 
     }
 
     protected Docent(){}
+
+    public Campus getCampus() {
+        return campus;
+    }
+
+    public void setCampus(Campus campus) {
+        this.campus = campus;
+    }
 
     public long getId() {
         return id;
