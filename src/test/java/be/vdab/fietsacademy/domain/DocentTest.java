@@ -16,7 +16,7 @@ public class DocentTest {
     @BeforeEach
     void beforeEach() {
         campus = new Campus("test", new Adres("test", "test", "test", "test"));
-        docent1 = new Docent("test", "test", WEDDE, "test@test.be", Geslacht.MAN, campus);
+        docent1 = new Docent("test", "test", WEDDE, "test@test.be", Geslacht.MAN/*, campus*/);
     }
     @Test
     void opslag() {
