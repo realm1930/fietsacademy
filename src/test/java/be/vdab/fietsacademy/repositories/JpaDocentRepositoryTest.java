@@ -35,7 +35,7 @@ class JpaDocentRepositoryTest extends AbstractTransactionalJUnit4SpringContextTe
     @BeforeEach
     void beforeEach() {campus = new Campus("test", new Adres("test", "test", "test", "test"));
 
-        docent = new Docent("test", "test", BigDecimal.TEN, "test@test.be", Geslacht.MAN/*, campus*/);
+        docent = new Docent("test", "test", BigDecimal.TEN, "test@test.be", Geslacht.MAN, campus);
         campus.add(docent);
     }
 

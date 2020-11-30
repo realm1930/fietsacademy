@@ -25,45 +25,48 @@ public class Docent {
             joinColumns = @JoinColumn(name = "docentid") )
     @Column(name = "bijnaam")
     private Set<String> bijnamen;
-    /*@ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "campusid")
-    private Campus campus;*/
+    private Campus campus;
 
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Docent)) return false;
-        Docent docent = (Docent) o;
-        return Objects.equals(emailAdres, docent.emailAdres);
+    public boolean equals(Object obj) {
+        if (obj instanceof Docent) {
+            return emailAdres.equalsIgnoreCase(((Docent) obj).emailAdres);
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(emailAdres);
+        return emailAdres == null ? 0 : emailAdres.toLowerCase().hashCode();
     }
 
     public Docent(String voornaam, String familienaam, BigDecimal wedde,
-                  String emailAdres, Geslacht geslacht/*, Campus campus*/) {
+                  String emailAdres, Geslacht geslacht, Campus campus) {
         this.voornaam = voornaam;
         this.familienaam = familienaam;
         this.wedde = wedde;
         this.emailAdres = emailAdres;
         this.geslacht = geslacht;
-//        setCampus(campus);
+        setCampus(campus);
         this.bijnamen = new LinkedHashSet<>();
 
     }
 
     protected Docent(){}
 
-    /*public Campus getCampus() {
+    public Campus getCampus() {
         return campus;
     }
 
     public void setCampus(Campus campus) {
+        if (!campus.getDocenten().contains(this)){
+            campus.add(this);
+        }
         this.campus = campus;
-    }*/
+    }
 
     public long getId() {
         return id;
