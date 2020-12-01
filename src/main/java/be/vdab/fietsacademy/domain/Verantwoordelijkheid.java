@@ -3,6 +3,7 @@ package be.vdab.fietsacademy.domain;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -52,5 +53,18 @@ public class Verantwoordelijkheid {
 
     public String getNaam() {
         return naam;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Verantwoordelijkheid)) return false;
+        Verantwoordelijkheid that = (Verantwoordelijkheid) o;
+        return Objects.equals(naam, that.naam);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(naam);
     }
 }
